@@ -1,0 +1,27 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema",
+    "title": "create new blog entry",
+    "type" : "object",
+    "properties": {
+        "title" : {
+            "type": "string"
+        },
+        "previewText" : {
+            "type": "string"
+        },
+        "articleText" : {
+            "type" : "string"
+        },
+        "articleImgUrl" : {
+            "type" : "string"
+        }
+    },
+    "required": [
+        "title",
+        "previewText",
+        "articleText",
+        "articleImgUrl"
+    ],
+    "additionalProperties": false
+
+}
