@@ -24,8 +24,6 @@ class Overview extends Component {
 
     this.setState({ blogList: items });
     console.log(this.state.blogList);
-
-    console.log(this.state.blogList.length)
   };
 
   render() {
@@ -40,7 +38,7 @@ class Overview extends Component {
         <div className="content">
           <div className='blogList'>
           {this.state.blogList.map((item) => {
-                return <BlogEntry title={item.title} text={item.previewText} link={'/blogentry/' +  item.blogId}/>
+                return <BlogEntry title={item.title} text={item.previewText} imageUrl={item.articleImgUrl} link={'/blogentry/' +  item.blogId}/>
           })
         }
           

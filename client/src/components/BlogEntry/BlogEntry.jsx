@@ -21,13 +21,16 @@ class BlogEntry extends Component {
 
     constructor(props) {
         super(props);
+        console.log(props)
     }
 
     render() {
         const { classes } = this.props;
         return (
         <div className="blogentry rcorners">
-          <div className="blogPreviewImage"/>
+          <div className="blogPreviewImage">
+            <img src={this.props.imageUrl} style={{padding: '10px', width:'160px', height:'160px'}}></img>
+            </div>
           <div className="blogPreviewText">
             <div className="blogPreviewHeaderFont">{this.props.title}</div>
             <div className="blogPreviewTextFont">
