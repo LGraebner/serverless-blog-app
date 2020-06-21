@@ -1,0 +1,32 @@
+
+.blogText {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color: #eeeeee;
+}
+
+.blogText-frame {
+    width: 1000px;
+    padding-left: 20%;
+    padding-right: 20%;
+}
+
+.blogText-content {
+    margin-top: 25px;
+}
+
+.blogText-publishDate {
+    font-size: 14pt;
+    color: gray;
+}
+
+.blogText-header {
+    font-size: 36pt;
+}
+
+.blogText-rcorners {
+    border-radius: 25px;
+    border: 2px solid gray;
+    background-color: white;
+    padding: 20px; 
+  }

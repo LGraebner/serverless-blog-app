@@ -1,0 +1,21 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema",
+    "title": "update blog entry",
+    "type" : "object",
+    "properties": {
+        "title" : {
+            "type": "string"
+        },
+        "previewText" : {
+            "type": "string"
+        },
+        "articleText" : {
+            "type" : "string"
+        },
+        "articleImgUrl" : {
+            "type" : "string"
+        }
+    },
+    "additionalProperties": false
+}
+
