@@ -17,6 +17,8 @@ class Overview extends Component {
   constructor(props) {
     super(props);
     this.state = {blogList: []};
+    this.idToken = localStorage.getItem('idToken')
+    console.log(this.idToken)
   }
 
   componentDidMount() {
@@ -24,7 +26,12 @@ class Overview extends Component {
   }
 
   getBlogs = async () => {
-    let res = await axios.get(`${apiEndpoint}/blogs`);
+    let res = await axios.get(`${apiEndpoint}/blogs`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.idToken}`
+      }
+    });
     let items = res.data.items;
 
     this.setState({ blogList: items });

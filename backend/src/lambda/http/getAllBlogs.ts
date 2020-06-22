@@ -1,5 +1,6 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import 'source-map-support/register'
+import * as AuthUtils from '../../auth/utils'
 import { getAllBlogItems } from '../../businessLogic/blogs'
 import *  as middy from 'middy'
 import { cors } from 'middy/middlewares'
@@ -10,7 +11,8 @@ const logger = createLogger('getAllBlogs')
 export const handler= middy(async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
   logger.info('caller event ', { event: event})
 
-  const items  = await getAllBlogItems()
+  const token: string = AuthUtils.getTokenFromApiGatewayEvent(event)
+  const items  = await getAllBlogItems(token)
 
   return {
       statusCode: 200,

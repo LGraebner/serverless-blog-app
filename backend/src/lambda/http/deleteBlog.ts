@@ -4,6 +4,7 @@ import { deleteBlogItem } from '../../businessLogic/blogs'
 import *  as middy from 'middy'
 import { cors } from 'middy/middlewares'
 import { createLogger } from '../../utils/logger'
+import * as AuthUtils from '../../auth/utils'
 
 const logger = createLogger('deleteBlogs')
 
@@ -11,8 +12,8 @@ export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGat
 
   logger.info('caller event ', { event: event})
   const blogId = event.pathParameters.blogId
-
-  await deleteBlogItem(blogId)
+  const token: string = AuthUtils.getTokenFromApiGatewayEvent(event)
+  await deleteBlogItem(blogId, token)
 
   return {
       statusCode: 204,

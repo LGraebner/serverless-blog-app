@@ -4,6 +4,7 @@ import { UpdateBlogRequest } from '../../requests/UpdateBlogRequest'
 import { updateBlogItem } from '../../businessLogic/blogs'
 import { BlogItem } from '../../models/BlogItem'
 import *  as middy from 'middy'
+import * as AuthUtils from '../../auth/utils'
 import { cors } from 'middy/middlewares'
 import { createLogger } from '../../utils/logger'
 
@@ -14,8 +15,8 @@ export const handler = middy( async (event: APIGatewayProxyEvent): Promise<APIGa
 
   const blogId = event.pathParameters.blogId
   const updatedBlog: UpdateBlogRequest = JSON.parse(event.body)
-
-  const updatedItem: BlogItem = await updateBlogItem(updatedBlog, blogId)
+  const token: string = AuthUtils.getTokenFromApiGatewayEvent(event)
+  const updatedItem: BlogItem = await updateBlogItem(updatedBlog, blogId, token)
 
   if (updatedItem !== null) {
     return {

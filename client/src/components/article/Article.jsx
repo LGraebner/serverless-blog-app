@@ -13,6 +13,8 @@ class Article extends Component {
         
         this.state = { blogId : blogId}  
         console.log(this.state.blogId)
+        this.idToken = localStorage.getItem('idToken')
+        console.log(this.idToken)
     }
 
     componentDidMount() {
@@ -20,7 +22,12 @@ class Article extends Component {
     }
 
     getBlog = async () => {
-        let res = await axios.get(`${apiEndpoint}/blogs/${this.state.blogId}`);
+        let res = await axios.get(`${apiEndpoint}/blogs/${this.state.blogId}`, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${this.idToken}`
+            }
+        });
         let blogData= res.data;
     
         this.setState({ blogData: blogData });

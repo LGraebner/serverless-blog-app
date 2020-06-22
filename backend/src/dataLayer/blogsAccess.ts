@@ -24,15 +24,22 @@ export class BlogAccess {
           }),
         private readonly logger: winston.Logger = createLogger('BlogAccess'),
         private readonly tableName = process.env.BLOG_TABLE,
+        private readonly indexCreatedAt = process.env.BLOG_CREATEDAT_INDEX,
         private readonly bucketName = process.env.BLOG_S3_BUCKET,
         private readonly urlExpiration = parseInt (process.env.SIGNED_URL_EXPIRATION, 10)) { 
     }
 
-    async getAllBlogItems(): Promise<BlogItem[]> {
-        this.logger.info('Getting all blog items')
+    async getAllBlogItems(userId : string): Promise<BlogItem[]> {
+        this.logger.info('Getting all blog items ', { userId : userId})
 
-        const result = await this.docClient.scan({
+        const result = await this.docClient.query({
             TableName: this.tableName,
+            IndexName: this.indexCreatedAt,
+            KeyConditionExpression: 'userId = :userId',
+            ExpressionAttributeValues: {
+                ':userId': userId
+            },
+            ScanIndexForward: false
           }).promise()
         
           let items
@@ -45,14 +52,15 @@ export class BlogAccess {
         return items as BlogItem[]
     }
 
-    async getBlogItem(blogId: string): Promise<BlogItem> {
-        this.logger.info('Get  blog item', {blogId: blogId})
+    async getBlogItem(blogId: string, userId : string): Promise<BlogItem> {
+        this.logger.info('Get  blog item', {blogId: blogId}, {userId : userId})
 
         const result = await this.docClient.query({
             TableName: this.tableName,
-            KeyConditionExpression: 'blogId = :blogId',
+            KeyConditionExpression: 'userId = :userId and blogId = :blogId',
             ExpressionAttributeValues: {
-                ':blogId': blogId
+                ':blogId': blogId,
+                ':userId': userId
             }
           }).promise()
         
@@ -63,11 +71,12 @@ export class BlogAccess {
           }
     }
 
-    async createNewBlogItem(newBlog: CreateBlogRequest): Promise<BlogItem> {
-        this.logger.info(`Creating new blog item ${newBlog}`)
+    async createNewBlogItem(newBlog: CreateBlogRequest, userId : string): Promise<BlogItem> {
+        this.logger.info(`Creating new blog item ${newBlog}`, {userId : userId})
 
         const itemId = uuid()
         const newItem = {
+          userId: userId,
           blogId: itemId,
           createdAt: new Date().toISOString(),
           attachmentUrl: `https://${this.bucketName}.s3.amazonaws.com/${itemId}`,
@@ -85,13 +94,14 @@ export class BlogAccess {
         return Utils.createBlogItemDto(newItem)
     }
 
-    async deleteBlogItem(blogId : string) {
-        this.logger.info(`Deleting blog item ${blogId}`)
+    async deleteBlogItem(blogId : string, userId : string) {
+        this.logger.info(`Deleting blog item ${blogId}`, {userId : userId})
         const result = await this.docClient.query({
             TableName: this.tableName,
-            KeyConditionExpression: 'blogId = :blogId',
+            KeyConditionExpression: 'blogId = :blogId and userId = :userId',
             ExpressionAttributeValues: {
-                ':blogId': blogId
+                ':blogId': blogId,
+                ':userId' : userId
             }
           }).promise()
         
@@ -109,13 +119,14 @@ export class BlogAccess {
         }
     }
 
-    async updateBlogItem(updatedBlog : UpdateBlogRequest, blogId: string): Promise<BlogItem> {
-        this.logger.info(`Updating blog item with ${updatedBlog}`)
+    async updateBlogItem(updatedBlog : UpdateBlogRequest, blogId: string, userId : string): Promise<BlogItem> {
+        this.logger.info(`Updating blog item with ${updatedBlog}`, {userId : userId})
         const result = await this.docClient.query({
             TableName: this.tableName,
-            KeyConditionExpression: 'blogId = :blogId',
+            KeyConditionExpression: 'blogId = :blogId  and userId = :userId',
             ExpressionAttributeValues: {
-                ':blogId': blogId
+                ':blogId': blogId,
+                ':userId': userId
             }
           }).promise()
         

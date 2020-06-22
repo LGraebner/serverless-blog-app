@@ -18,7 +18,8 @@ provider:
   region: ${opt:region, 'eu-central-1'}
 
   environment:
-    BLOG_TABLE: Blog-${self:provider.stage}
+    BLOG_TABLE: blog-${self:provider.stage}
+    BLOG_CREATEDAT_INDEX: blog-created-at-index-${self:provider.stage}
     BLOG_S3_BUCKET: sls-blog-laurent-${self:provider.stage}
     SIGNED_URL_EXPIRATION: 300
     JSON_WEBKEY_SET_ENDPOINT: https://dev-bo9vxw93.eu.auth0.com/.well-known/jwks.json
@@ -48,9 +49,9 @@ functions:
     iamRoleStatements:
       - Effect: Allow
         Action:
-          - dynamodb:Scan
+          - dynamodb:Query
         Resource: 
-          arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.BLOG_TABLE}
+          arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.BLOG_TABLE}/index/${self:provider.environment.BLOG_CREATEDAT_INDEX}
 
   # Get Blog
   GetBlog:
@@ -147,15 +148,26 @@ resources:
       Type: AWS::DynamoDB::Table
       Properties:
         AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
           - AttributeName: blogId
             AttributeType: S
           - AttributeName: createdAt
             AttributeType: S
         KeySchema:
-          - AttributeName: blogId
+          - AttributeName: userId
             KeyType: HASH
-          - AttributeName: createdAt
+          - AttributeName: blogId
             KeyType: RANGE
+        LocalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.BLOG_CREATEDAT_INDEX}
+            KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+            - AttributeName: createdAt
+              KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.BLOG_TABLE}
 
