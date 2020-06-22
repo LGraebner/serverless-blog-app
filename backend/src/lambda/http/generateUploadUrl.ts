@@ -8,6 +8,7 @@ import { createLogger } from '../../utils/logger'
 const logger = createLogger('generateUploadUrls')
 
 export const handler = middy(async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+  
   logger.info('caller event ', { event: event})
 
   const blogId = event.pathParameters.blogId

@@ -4,6 +4,7 @@ import BlogHeader from '../header/BlogHeader';
 import Footer from '../footer/Footer';
 import topImage from '../../gfx/wallpaper-1406531.jpg';
 import BlogText from './BlogText';
+import { apiEndpoint } from '../../config'
 
 class Article extends Component {
     constructor(props) {
@@ -19,7 +20,7 @@ class Article extends Component {
     }
 
     getBlog = async () => {
-        let res = await axios.get(`https://6gpbo7h0j3.execute-api.eu-central-1.amazonaws.com/dev/blogs/${this.state.blogId}`);
+        let res = await axios.get(`${apiEndpoint}/blogs/${this.state.blogId}`);
         let blogData= res.data;
     
         this.setState({ blogData: blogData });

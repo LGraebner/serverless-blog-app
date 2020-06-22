@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
 import { Alert, AlertTitle } from '@material-ui/lab';
+import  { apiEndpoint, imageBucketUrl } from '../../config'
 
 
 
@@ -17,7 +18,8 @@ class EditItem extends Component {
         redirect: null,
         isUploadSuccesful: false
       }
-      this.bucketName = 'sls-blog-laurent-dev'
+      this.idToken = localStorage.getItem('idToken')
+      console.log(this.idToken)
   }
 
   componentDidMount() {
@@ -43,7 +45,12 @@ class EditItem extends Component {
     const options = {
       headers: {'Content-Type': 'application/json'}
     };
-    await axios.patch(`https://6gpbo7h0j3.execute-api.eu-central-1.amazonaws.com/dev/blogs/${this.state.blogId}`, addItem, options);
+    await axios.patch(`${apiEndpoint}/blogs/${this.state.blogId}`, addItem, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.idToken}`
+      }
+    });
     this.setState({ redirect: "/admin" });
   }
 
@@ -63,13 +70,19 @@ class EditItem extends Component {
   };
 
   getUploadImageUrl = async () => {
-    const response = await axios.post(`https://6gpbo7h0j3.execute-api.eu-central-1.amazonaws.com/dev/blogs/${this.state.blogId}/getUploadImageUrl`)
+    console.log('generateUrl ', this.idToken)
+    const response = await axios.post(`${apiEndpoint}/blogs/${this.state.blogId}/attachment`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.idToken}`
+      }
+    })
     return response.data.uploadUrl
   }
 
   uploadImage = async (uploadUrl) => {
     await axios.put(uploadUrl, this.state.fileData)
-    this.setState({articleImgUrl: `https://${this.bucketName}.s3.amazonaws.com/${this.state.blogId}`, isUploadSuccesful: true})
+    this.setState({articleImgUrl: `${imageBucketUrl}/${this.state.blogId}`, isUploadSuccesful: true})
   }
 
   render() {

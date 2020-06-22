@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { apiEndpoint } from '../../config'
 import { Redirect } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -20,6 +21,8 @@ class AddItem extends Component {
         articleImgUrl: "",
         fileData: null 
       }
+      this.idToken = localStorage.getItem('idToken')
+      console.log(this.idToken)
   }
 
 
@@ -32,10 +35,13 @@ class AddItem extends Component {
         "articleText" : this.state.articleText,
         "articleImgUrl" : this.state.articleImgUrl
     }
-    const options = {
-      headers: {'Content-Type': 'application/json'}
-    };
-    await axios.post(`https://6gpbo7h0j3.execute-api.eu-central-1.amazonaws.com/dev/blogs`, addItem, options);
+
+    await axios.post(`${apiEndpoint}/blogs`, addItem,{
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.idToken}`
+      }
+    });
     this.setState({ redirect: "/admin" });
   }
 

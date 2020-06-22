@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Auth} from '../../auth/Auth'
 import './Admin.css'
+import {apiEndpoint} from '../../config'
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import AddIcon from '@material-ui/icons/Add';
+import ListIcon from '@material-ui/icons/List';
+import LogoutIcon from '@material-ui/icons/ExitToApp';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -26,7 +28,8 @@ class Admin extends Component {
           blogList: [],
           addDialogOpen: false
         };
-
+        this.idToken = localStorage.getItem('idToken')
+        console.log(this.idToken)
     }
 
     componentDidMount() {
@@ -34,7 +37,12 @@ class Admin extends Component {
     }
   
     getBlogs = async () => {
-      let res = await axios.get("https://6gpbo7h0j3.execute-api.eu-central-1.amazonaws.com/dev/blogs");
+      let res = await axios.get(`${apiEndpoint}/blogs`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.idToken}`
+        }
+      });
       let items = res.data.items;
   
       this.setState({ blogList: items });
@@ -44,8 +52,14 @@ class Admin extends Component {
     };
 
     deleteBlog = async (blogId) => {
+
       console.log('delete ', blogId)
-      await axios.delete(`https://6gpbo7h0j3.execute-api.eu-central-1.amazonaws.com/dev/blogs/${blogId}`);
+      await axios.delete(`${apiEndpoint}/blogs/${blogId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${this.idToken}`
+        }
+      });
       this.getBlogs()
     }
 
@@ -63,8 +77,25 @@ class Admin extends Component {
 
 
               <div className='blogList'>
+                    <IconButton 
+                        aria-label="edit"
+                        component={Link} 
+                        to='/overview'
+                        >
+                        <ListIcon />
+                    </IconButton>
+                    <IconButton 
+                        aria-label="edit"
+                        component={Link} 
+                        to='/'
+                        >
+                        <LogoutIcon />
+                    </IconButton>
                 <div>
-                  <div><h1>Admin Panel</h1></div>
+                  <div>
+                    <h1>Admin Panel</h1> 
+ 
+                  </div>
                     <div style={{float: 'right', marginBottom: '10px'}}>
                       <Button 
                         id='addNewItem'

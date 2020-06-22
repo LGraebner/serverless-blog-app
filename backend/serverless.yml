@@ -74,7 +74,7 @@ functions:
       - http:
           method: post
           path: blogs
-          #authorizer: Auth
+          authorizer: Auth
           cors: true
           reqValidatorName: RequestBodyValidator
           request:
@@ -94,7 +94,7 @@ functions:
       - http:
           method: patch
           path: blogs/{blogId}
-          #authorizer: Auth
+          authorizer: Auth
           cors: true
           reqValidatorName: RequestBodyValidator
           request:
@@ -116,7 +116,7 @@ functions:
       - http:
           method: delete
           path: blogs/{blogId}
-          #authorizer: Auth
+          authorizer: Auth
           cors: true
     iamRoleStatements:
       - Effect: Allow
@@ -132,8 +132,7 @@ functions:
     events:
       - http:
           method: post
-          path: blogs/{blogId}/getUploadImageUrl
-          #authorizer: Auth
+          path: blogs/{blogId}/attachment
           cors: true
     iamRoleStatements:
       - Effect: Allow

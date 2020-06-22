@@ -1,7 +1,8 @@
 import auth0 from 'auth0-js';
 import { authConfig } from '../config';
+import history from './history';
 
-export default class Auth {
+class Auth {
   accessToken;
   idToken;
   expiresAt;
@@ -14,7 +15,7 @@ export default class Auth {
     scope: 'openid'
   });
 
-  constructor(history) {
+  constructor() {
     this.history = history
 
     this.login = this.login.bind(this);
@@ -36,6 +37,7 @@ export default class Auth {
         console.log('Access token: ', authResult.accessToken)
         console.log('id token: ', authResult.idToken)
         this.setSession(authResult);
+        this.history.replace('/');
       } else if (err) {
         this.history.replace('/');
         console.log(err);
@@ -55,6 +57,8 @@ export default class Auth {
   setSession(authResult) {
     // Set isLoggedIn flag in localStorage
     localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('accessToken', authResult.accessToken);
+    localStorage.setItem('idToken', authResult.idToken);
 
     // Set the time that the access token will expire at
     let expiresAt = (authResult.expiresIn * 1000) + new Date().getTime();
@@ -102,3 +106,5 @@ export default class Auth {
     return new Date().getTime() < expiresAt;
   }
 }
+
+export default Auth
