@@ -96,27 +96,13 @@ export class BlogAccess {
 
     async deleteBlogItem(blogId : string, userId : string) {
         this.logger.info(`Deleting blog item ${blogId}`, {userId : userId})
-        const result = await this.docClient.query({
+        await this.docClient.delete({
             TableName: this.tableName,
-            KeyConditionExpression: 'blogId = :blogId and userId = :userId',
-            ExpressionAttributeValues: {
-                ':blogId': blogId,
-                ':userId' : userId
+            Key: {
+                userId: userId,
+                blogId: blogId,
             }
           }).promise()
-        
-        if (result.Count !== 0) {
-            const item = result.Items[0]
-        
-            await this.docClient.delete({
-                TableName: this.tableName,
-                Key: {
-                    blogId: item.blogId,
-                    createdAt: item.createdAt
-                }
-            }).promise()
-    
-        }
     }
 
     async updateBlogItem(updatedBlog : UpdateBlogRequest, blogId: string, userId : string): Promise<BlogItem> {
