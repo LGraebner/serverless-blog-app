@@ -1,0 +1,302 @@
+{
+	"info": {
+		"_postman_id": "b09943db-4051-4342-b063-623e5222a4fb",
+		"name": "Udacity Capstone Serverless Blog",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Blogs",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/{{stage}}/blogs",
+					"protocol": "https",
+					"host": [
+						"{{apiId}}",
+						"execute-api",
+						"{{region}}",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"{{stage}}",
+						"blogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Blog",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\"  : \"blog1\",\r\n    \"previewText\" : \"previewText1\",\r\n    \"articleText\" : \"articleText1\",\r\n    \"articleImgUrl\" :\"articleImgUrl1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/{{stage}}/blogs",
+					"protocol": "https",
+					"host": [
+						"{{apiId}}",
+						"execute-api",
+						"{{region}}",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"{{stage}}",
+						"blogs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Blog",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\"  : \"updatedBlog1\",\r\n    \"previewText\" : \"previewText1\",\r\n    \"articleText\" : \"articleText1\",\r\n    \"articleImgUrl\" :\"articleImgUrl1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/{{stage}}/blogs/7c52d4f3-ada7-4d01-822c-372ceb21d079",
+					"protocol": "https",
+					"host": [
+						"{{apiId}}",
+						"execute-api",
+						"{{region}}",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"{{stage}}",
+						"blogs",
+						"7c52d4f3-ada7-4d01-822c-372ceb21d079"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Blog",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/{{stage}}/blogs/b9997029-a410-4f86-955c-480fa6862ed8",
+					"protocol": "https",
+					"host": [
+						"{{apiId}}",
+						"execute-api",
+						"{{region}}",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"{{stage}}",
+						"blogs",
+						"b9997029-a410-4f86-955c-480fa6862ed8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Blog",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/{{stage}}/blogs/b9997029-a410-4f86-955c-480fa6862ed8",
+					"protocol": "https",
+					"host": [
+						"{{apiId}}",
+						"execute-api",
+						"{{region}}",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"{{stage}}",
+						"blogs",
+						"b9997029-a410-4f86-955c-480fa6862ed8"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Image Upload Url",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/{{stage}}/blogs/d8b38c7f-54b0-40d9-ab42-92a6c5cb6069/attachment",
+					"protocol": "https",
+					"host": [
+						"{{apiId}}",
+						"execute-api",
+						"{{region}}",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"{{stage}}",
+						"blogs",
+						"d8b38c7f-54b0-40d9-ab42-92a6c5cb6069",
+						"attachment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Options Blogs",
+			"request": {
+				"method": "OPTIONS",
+				"header": [],
+				"url": {
+					"raw": "https://{{apiId}}.execute-api.{{region}}.amazonaws.com/{{stage}}/blogs/",
+					"protocol": "https",
+					"host": [
+						"{{apiId}}",
+						"execute-api",
+						"{{region}}",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"{{stage}}",
+						"blogs",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "4faac69e-9259-4697-8eca-a1ff0b6bc2f2",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "faa95d80-fe87-475d-9665-9b16bc83850a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "9cf971b4-c1e9-4b7a-a35b-fd8d14756820",
+			"key": "apiId",
+			"value": "6gpbo7h0j3",
+			"type": "string"
+		},
+		{
+			"id": "6fabc9ac-f0bf-4a20-af15-91ba63d72e8a",
+			"key": "region",
+			"value": "eu-central-1",
+			"type": "string"
+		},
+		{
+			"id": "44460947-78c7-4eb1-a238-c0b03adbd387",
+			"key": "stage",
+			"value": "dev",
+			"type": "string"
+		},
+		{
+			"id": "dff63bb1-6ad2-4a1f-bfb0-6339280f9e9d",
+			"key": "token",
+			"value": "abc",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

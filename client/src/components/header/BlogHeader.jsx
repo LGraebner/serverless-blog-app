@@ -36,7 +36,8 @@ class BlogHeader extends Component {
         const { classes } = this.props;
         console.log(window.location.href);
         return (
-            <div className="header topImage darken" style={{backgroundImage: "url(" + this.props.topImage + ")"}}>
+            // <div className="header topImage darken" style={{backgroundImage: "url(" + this.props.topImage + ")"}}>
+            <div className="header topImage darken" style={{backgroundColor: 'lightblue'}}>
             <div style={{display: 'flex'}}>
                 <div style={{marginTop: 50}}>
 

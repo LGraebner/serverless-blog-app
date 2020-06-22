@@ -12,8 +12,9 @@ class Footer extends Component {
         return (
             <div>
 
-<div className="footerImage darken" style={{backgroundImage: "url(" + this.props.topImage + ")"}}></div>
-    <div className="footerContent">
+{/* <div className="footerImage darken" style={{backgroundImage: "url(" + this.props.topImage + ")"}}></div> */}
+<div className="footerImage darken" style={{backgroundColor: 'lightblue'}}></div>
+    {/* <div className="footerContent">
                 <div className="flex-container">
                     <div className="infoBox">
                     <h2>About</h2>
@@ -28,7 +29,7 @@ class Footer extends Component {
                     </div>
                 
                 </div>
-    </div>
+    </div> */}
             </div>
         );
     }
